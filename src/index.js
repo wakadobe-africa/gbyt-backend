@@ -23,11 +23,16 @@ const app = express()
 
 // cors() allows requests from your React frontend
 // Without this, the browser blocks all frontend requests
-app.use(cors({
-  origin: 'http://localhost:5173', // only allow your React app
-  credentials: true                // allow cookies and auth headers
-}))
+const allowedOrigins = [
+  'http://localhost:5173',
+  process.env.FRONTEND_URL
+].filter(Boolean) // filter(Boolean) removes any undefined/empty values,
+                   // which matters locally where FRONTEND_URL doesn't exist yet
 
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}))
 // express.json() parses incoming request bodies as JSON
 // Without this, req.body is undefined when frontend sends data
 // This is one of the most common mistakes beginners make
