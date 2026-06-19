@@ -10,6 +10,7 @@ const cors    = require('cors')
 // We haven't built these fully yet but we register them now
 const giftsRouter = require('./routes/gifts')
 const usersRouter = require('./routes/users')
+const inventoryRouter = require('./routes/inventory')
 
 // Create the Express application
 // app is the core object — everything attaches to it
@@ -44,6 +45,7 @@ app.use(express.json())
 // Any request starting with /api/gifts goes to giftsRouter
 app.use('/api/users', usersRouter)
 app.use('/api/gifts', giftsRouter)
+app.use('/api/inventory', inventoryRouter)
 
 // ── HEALTH CHECK ────────────────────────────────────────
 // A simple route to verify the server is running
