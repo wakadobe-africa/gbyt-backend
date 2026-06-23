@@ -2,13 +2,24 @@ const pool = require('../db')
 
 const getAll = async (req, res) => {
   try {
-    // req.user.userId comes from the JWT via authMiddleware
-    // Each user only sees THEIR OWN gift searches
-    // This is called Row Level Security in application code
+    // We JOIN gift_searches with recipients so each row comes back
+    // with the recipient's name attached. LEFT JOIN means: even if
+    // a gift_search somehow has no matching recipient (which shouldn't
+    // happen in practice given our insert logic, but defensive coding
+    // means we plan for it), we still get the gift_search row back
+    // rather than it silently disappearing from results.
     const result = await pool.query(
-      `SELECT * FROM gift_searches 
-       WHERE user_id = $1 
-       ORDER BY created_at DESC`,
+      `SELECT 
+        gs.id,
+        gs.occasion,
+        gs.budget,
+        gs.suggestions,
+        gs.created_at,
+        r.name AS recipient_name
+       FROM gift_searches gs
+       LEFT JOIN recipients r ON gs.recipient_id = r.id
+       WHERE gs.user_id = $1
+       ORDER BY gs.created_at DESC`,
       [req.user.userId]
     )
 
@@ -19,6 +30,7 @@ const getAll = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch gifts' })
   }
 }
+
 
 const create = async (req, res) => {
   try {
