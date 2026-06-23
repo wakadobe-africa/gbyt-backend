@@ -29,7 +29,7 @@ router.get('/:category', async (req, res) => {
 
     const params = new URLSearchParams({
       categories_tags_en: taggedCategory,
-      page_size: '8',
+      page_size: '20',
       fields: 'product_name,brands,categories'
     })
 
