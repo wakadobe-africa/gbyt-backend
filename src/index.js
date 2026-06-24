@@ -46,7 +46,7 @@ app.use(express.json())
 // Any request starting with /api/gifts goes to giftsRouter
 app.use('/api/users', usersRouter)
 app.use('/api/gifts', giftsRouter)
-app.use('/api/inventory', inventoryRouter)
+
 
 // ── HEALTH CHECK ────────────────────────────────────────
 // A simple route to verify the server is running
@@ -59,12 +59,7 @@ app.get('/health', (req, res) => {
   })
 })
 
-// Temporary test route — remove before pushing to production
 
-app.get('/test/zodiac/:date', (req, res) => {
-  const sign = deriveZodiacSign(req.params.date)
-  res.json({ date: req.params.date, zodiac: sign })
-})
 
 
 // ── 404 HANDLER ─────────────────────────────────────────
