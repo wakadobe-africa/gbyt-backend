@@ -11,6 +11,7 @@ const cors    = require('cors')
 const giftsRouter = require('./routes/gifts')
 const usersRouter = require('./routes/users')
 const inventoryRouter = require('./routes/inventory')
+const { deriveZodiacSign } = require('./services/recipientsService')
 
 // Create the Express application
 // app is the core object — everything attaches to it
@@ -58,6 +59,14 @@ app.get('/health', (req, res) => {
   })
 })
 
+// Temporary test route — remove before pushing to production
+
+app.get('/test/zodiac/:date', (req, res) => {
+  const sign = deriveZodiacSign(req.params.date)
+  res.json({ date: req.params.date, zodiac: sign })
+})
+
+
 // ── 404 HANDLER ─────────────────────────────────────────
 // If no route matched, send a 404 response
 // The * wildcard catches everything that fell through
@@ -67,6 +76,8 @@ app.use('*', (req, res) => {
     path: req.originalUrl
   })
 })
+
+
 
 // ── ERROR HANDLER ───────────────────────────────────────
 // Express has a special 4-argument middleware for errors
@@ -79,6 +90,8 @@ app.use((err, req, res, next) => {
     message: err.message
   })
 })
+
+
 
 // ── START SERVER ────────────────────────────────────────
 // Read port from environment or default to 3001
