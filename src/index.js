@@ -46,7 +46,7 @@ app.use(express.json())
 // Any request starting with /api/gifts goes to giftsRouter
 app.use('/api/users', usersRouter)
 app.use('/api/gifts', giftsRouter)
-
+app.use('/api/inventory', inventoryRouter)
 
 // ── HEALTH CHECK ────────────────────────────────────────
 // A simple route to verify the server is running
