@@ -63,7 +63,8 @@ async function findOrCreateRecipient(userId, recipientData) {
     name,
     relationship,
     date_of_birth,
-    personality_notes
+    personality_notes,
+    gender
   } = recipientData
 
   // Automatically derive zodiac sign from date of birth —
@@ -93,10 +94,11 @@ async function findOrCreateRecipient(userId, recipientData) {
         relationship      = COALESCE($1, relationship),
         date_of_birth     = COALESCE($2, date_of_birth),
         zodiac_sign       = COALESCE($3, zodiac_sign),
-        personality_notes = COALESCE($4, personality_notes)
-       WHERE id = $5
+        personality_notes = COALESCE($4, personality_notes),
+        gender             = COALESCE($5, gender)
+       WHERE id = $6
        RETURNING id, name, relationship, zodiac_sign`,
-      [relationship, date_of_birth, zodiac_sign, personality_notes, existing.rows[0].id]
+      [relationship, date_of_birth, zodiac_sign, personality_notes, gender, existing.rows[0].id]
     )
     return updated.rows[0]
   }
@@ -104,10 +106,10 @@ async function findOrCreateRecipient(userId, recipientData) {
   // Recipient doesn't exist — create them fresh with all details
   const created = await pool.query(
     `INSERT INTO recipients
-      (user_id, name, relationship, date_of_birth, zodiac_sign, personality_notes)
-     VALUES ($1, $2, $3, $4, $5, $6)
+      (user_id, name, relationship, date_of_birth, zodiac_sign, personality_notes, gender)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)
      RETURNING id, name, relationship, zodiac_sign`,
-    [userId, name, relationship, date_of_birth, zodiac_sign, personality_notes]
+    [userId, name, relationship, date_of_birth, zodiac_sign, personality_notes, gender]
   )
   return created.rows[0]
 }

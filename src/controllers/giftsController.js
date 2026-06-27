@@ -39,7 +39,8 @@ const create = async (req, res) => {
       recipient_name,
       relationship,
       date_of_birth,
-      personality_notes
+      personality_notes,
+      gender
     } = req.body
 
     if (!occasion || !budget || !suggestions) {
@@ -60,7 +61,8 @@ const create = async (req, res) => {
         name: recipient_name,
         relationship,
         date_of_birth,
-        personality_notes
+        personality_notes,
+        gender
       })
       recipientId = recipient.id
     }
@@ -72,7 +74,6 @@ const create = async (req, res) => {
        RETURNING *`,
       [req.user.userId, recipientId, occasion, budget, suggestions]
     )
-
     res.status(201).json({
       success: true,
       data: result.rows[0]

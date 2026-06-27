@@ -59,7 +59,7 @@ const register = async (req, res) => {
     const result = await pool.query(
       `INSERT INTO users (email, password_hash, fullname)
        VALUES ($1, $2, $3)
-       RETURNING id, email, password_hash, fullname, created_at`,
+       RETURNING id, email, password_hash, fullname, role, created_at`,
       [email.toLowerCase(), passwordHash, fullname]
     )
 
@@ -73,7 +73,8 @@ const register = async (req, res) => {
       // Keep it minimal — only what you need on every request
       {
         userId: newUser.id,
-        email:  newUser.email
+        email:  newUser.email,
+        role: newUser.role
       },
       // Secret — must match what authMiddleware uses to verify
       process.env.JWT_SECRET,
@@ -93,6 +94,7 @@ const register = async (req, res) => {
         id:         newUser.id,
         email:      newUser.email,
         fullname:   newUser.fullname,
+        role:       newUser.role,
         created_at: newUser.created_at
       }
     })
@@ -148,7 +150,8 @@ const login = async (req, res) => {
     const token = jwt.sign(
       {
         userId: user.id,
-        email:  user.email
+        email:  user.email,
+        role: user.role
       },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
@@ -163,6 +166,7 @@ const login = async (req, res) => {
         id:         user.id,
         email:      user.email,
         fullname:   user.fullname,
+        role:       user.role,
         created_at: user.created_at
       }
     })

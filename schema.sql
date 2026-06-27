@@ -10,14 +10,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 -- ── USERS ──────────────────────────────────────────────────────────────
 -- Core account table. Passwords are stored as bcrypt hashes only —
 -- the plain password never touches the database.
-CREATE TABLE IF NOT EXISTS users (
-  id            UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  email         VARCHAR(255) UNIQUE NOT NULL,
-  password_hash VARCHAR(255) NOT NULL,
-  fullname      VARCHAR(255),
-  created_at    TIMESTAMP DEFAULT NOW()
-);
-
+postgresql://gbyt_user:0HjgyBpAgRZux1evzs53muLHJJ9OYYw1@dpg-d8qf21m8bjmc738ll49g-a.frankfurt-postgres.render.com/gbyt
 -- ── RECIPIENTS ─────────────────────────────────────────────────────────
 -- People that users buy gifts for. Each recipient belongs to one user.
 -- Deleting a user cascades to delete all their recipients automatically.

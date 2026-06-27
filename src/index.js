@@ -11,6 +11,7 @@ const cors    = require('cors')
 const giftsRouter = require('./routes/gifts')
 const usersRouter = require('./routes/users')
 const inventoryRouter = require('./routes/inventory')
+const adminRouter = require('./routes/admin')
 const { deriveZodiacSign } = require('./services/recipientsService')
 
 // Create the Express application
@@ -47,6 +48,8 @@ app.use(express.json())
 app.use('/api/users', usersRouter)
 app.use('/api/gifts', giftsRouter)
 app.use('/api/inventory', inventoryRouter)
+// With other app.use() calls
+app.use('/api/admin', adminRouter)
 
 // ── HEALTH CHECK ────────────────────────────────────────
 // A simple route to verify the server is running
