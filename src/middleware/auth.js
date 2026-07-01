@@ -29,7 +29,7 @@ function authMiddleware(req, res, next) {
     // 2. Decodes the payload and returns it
     // If either fails it throws an error
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    console.log('Decoded JWT:', decoded)
+    
     // Attach the decoded user data to the request object
     // Now any route handler after this middleware can access
     // req.user.userId, req.user.email etc

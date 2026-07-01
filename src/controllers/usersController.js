@@ -199,7 +199,7 @@ const getMe = async (req, res) => {
     })
 
   } catch (error) {
-    console.error('getMe error:', error)
+    console.error('User error:', error)
     res.status(500).json({ error: 'Failed to get user' })
   }
 }

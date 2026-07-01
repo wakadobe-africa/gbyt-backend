@@ -10,6 +10,6 @@ router.post('/login',    usersController.login)
 // Protected route — authMiddleware runs first
 // If token is valid, getMe runs
 // If token is invalid, authMiddleware returns 401 and getMe never runs
-router.get('/me', authMiddleware, usersController.getMe)
+router.get('/user', authMiddleware, usersController.getMe)
 
 module.exports = router
